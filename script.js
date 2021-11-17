@@ -1,27 +1,80 @@
-/*
-This is your site JavaScript code - you can add interactivity and carry out processing
-- Initially the JS writes a message to the console, and moves a button you can add from the README
-*/
+var suits = ["Spades", "Hearts", "Diamonds", "Clubs"];
+    var values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+    var deck = new Array();
 
-// Print a message in the browser's dev tools console each time the page loads
-// Use your menus or right-click / control-click and choose "Inspect" > "Console"
-console.log("Hello 🌎");
+    function createDeck()
+    {
+        deck = new Array();
+        for (var i = 0 ; i < values.length; i++)
+        {
+            for(var x = 0; x < suits.length; x++)
+            {
+                var weight = parseInt(values[i]);
+                if (values[i] == "J" || values[i] == "Q" || values[i] == "K")
+                    weight = 10;
+                if (values[i] == "A")
+                    weight = 11;
+                var card = { Value: values[i], Suit: suits[x], Weight: weight };
+                deck.push(card);
+            }
+        }
+    }
+   function shuffle()
+    {
+        for (var i = 0; i < 1000; i++)
+        {
+            var location1 = Math.floor((Math.random() * deck.length));
+            var location2 = Math.floor((Math.random() * deck.length));
+            var tmp = deck[location1];
 
-/* 
-Make the "Click me!" button move when the visitor clicks it:
-- First add the button to the page by following the "Next steps" in the README
-*/
-const btn = document.querySelector("button"); // Get the button from the page
-// Detect clicks on the button
-if (btn) {
-  btn.onclick = function() {
-    // The JS works in conjunction with the 'dipped' code in style.css
-    btn.classList.toggle("dipped");
-  };
-}
+            deck[location1] = deck[location2];
+            deck[location2] = tmp;
+        }
+    }
+    var players = new Array();
+    function createPlayers(num)
+    {
+        players = new Array();
+        for(var i = 1; i <= num; i++)
+        {
+            var hand = new Array();
+            var player = { Name: 'Player ' + i, ID: i, Points: 0, Hand: hand };
+            players.push(player);
+        }
+    }
+ function createPlayersUI()
+    {
+        document.getElementById('players').innerHTML = '';
+        for(var i = 0; i < players.length; i++)
+        {
+            var div_player = document.createElement('div');
+            var div_playerid = document.createElement('div');
+            var div_hand = document.createElement('div');
+            var div_points = document.createElement('div');
 
-// This is a single line JS comment
-/*
-This is a comment that can span multiple lines 
-- use comments to make your own notes!
-*/
+            div_points.className = 'points';
+            div_points.id = 'points_' + i;
+            div_player.id = 'player_' + i;
+            div_player.className = 'player';
+            div_hand.id = 'hand_' + i;
+
+            div_playerid.innerHTML = players[i].ID;
+            div_player.appendChild(div_playerid);
+            div_player.appendChild(div_hand);
+            div_player.appendChild(div_points);
+            document.getElementById('players').appendChild(div_player);
+        }
+    }
+ function startblackjack()
+    {
+        document.getElementById('btnStart').value = 'Restart';
+        document.getElementById("status").style.display="none";
+        // deal 2 cards to every player object
+        currentPlayer = 0;
+        createDeck();
+        shuffle();
+        createPlayers(2);
+        createPlayersUI();
+        dealHands();
+        document.getElementById('player_' + currentPlayer).classList.add('active');
+    }
