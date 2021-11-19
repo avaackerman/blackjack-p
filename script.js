@@ -122,7 +122,7 @@ function gameOver() {
     } else if (playerTotal === 21 && pcTotal < 21) {
       result = "you won!!!";
     } else if (playerTotal < 21 && pcTotal === 21) {
-      result = "you lost sry";
+      result = "you lost, sry";
     } else if (playerTotal < 21 && pcTotal < 21) {
       if (playerTotal < pcTotal) {
         result = "you lost sry";
