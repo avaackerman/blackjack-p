@@ -183,3 +183,4 @@ window.addEventListener("load", function() {
   shuffle();
   createPlayers(1);
 });
+
